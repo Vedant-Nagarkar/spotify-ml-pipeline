@@ -1,0 +1,7 @@
+spotify.csv 
+__pycache__/ 
+*.pyc 
+logs/ 
+outputs/ 
+*.csv 
+spotify/ 
