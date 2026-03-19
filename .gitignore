@@ -6,3 +6,6 @@ outputs/
 *.csv 
 spotify/ 
 spotify/ 
+models/ 
+processed/ 
+models/ 
