@@ -1,4 +1,20 @@
+# ═══════════════════════════════════════════════
+# 03_CLUSTERING.PY — K-MEANS CLUSTERING
+# ═══════════════════════════════════════════════
+# What this file does:
+#   1. Loads preprocessed data from processed/
+#   2. Runs elbow method to find best K
+#   3. Trains K-Means with best K
+#   4. Visualizes clusters using PCA
+#   5. Profiles each cluster
+#   6. Saves cluster model
+#
+# Key Question:
+#   Do natural song clusters exist?
+#   Do they align with popularity?
+# ═══════════════════════════════════════════════
 
+# ── Imports ───────────────────────────────────
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -16,7 +32,7 @@ from logger import logger
 
 # import load_processed_data from our preprocessing file
 # This is why we made it a function — easy to reuse!
-from preprocessing import load_processed_data
+from preprocessing_02 import load_processed_data
 
 # ── Settings ──────────────────────────────────
 plt.style.use('seaborn-v0_8')
