@@ -1,20 +1,4 @@
-# ═══════════════════════════════════════════════
-# 03_CLUSTERING.PY — K-MEANS CLUSTERING
-# ═══════════════════════════════════════════════
-# What this file does:
-#   1. Loads preprocessed data from processed/
-#   2. Runs elbow method to find best K
-#   3. Trains K-Means with best K
-#   4. Visualizes clusters using PCA
-#   5. Profiles each cluster
-#   6. Saves cluster model
-#
-# Key Question:
-#   Do natural song clusters exist?
-#   Do they align with popularity?
-# ═══════════════════════════════════════════════
 
-# ── Imports ───────────────────────────────────
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -32,7 +16,7 @@ from logger import logger
 
 # import load_processed_data from our preprocessing file
 # This is why we made it a function — easy to reuse!
-from preprocessing_02 import load_processed_data
+from preprocessing import load_processed_data
 
 # ── Settings ──────────────────────────────────
 plt.style.use('seaborn-v0_8')
@@ -42,9 +26,7 @@ os.makedirs('models',  exist_ok=True)   # folder to save models
 BEST_K = 5   # we determined this from elbow method
 
 
-# ═══════════════════════════════════════════════
-# FUNCTION 1: ELBOW METHOD
-# ═══════════════════════════════════════════════
+
 def elbow_method(X_train, k_range=range(2, 11)):
     """
     Find the best K using the elbow method.
@@ -73,7 +55,7 @@ def elbow_method(X_train, k_range=range(2, 11)):
     # ── Plot elbow curve ──────────────────────
     plt.figure(figsize=(8, 5))
     plt.plot(list(k_range), inertias,
-             'bo-', linewidth=2, markersize=8)
+            'bo-', linewidth=2, markersize=8)
     plt.axvline(x=BEST_K, color='red',
                 linestyle='--', label=f'K={BEST_K}')
     plt.title('Elbow Method - Finding Best K')
@@ -89,9 +71,7 @@ def elbow_method(X_train, k_range=range(2, 11)):
     return inertias
 
 
-# ═══════════════════════════════════════════════
-# FUNCTION 2: TRAIN KMEANS
-# ═══════════════════════════════════════════════
+
 def train_kmeans(X_train, k=BEST_K):
     """
     Train KMeans with the best K.
@@ -99,9 +79,9 @@ def train_kmeans(X_train, k=BEST_K):
     cluster quality.
 
     Silhouette score:
-      +1 = perfectly separated clusters
-       0 = overlapping clusters
-      -1 = wrong cluster assignments
+    +1 = perfectly separated clusters
+    0 = overlapping clusters
+    -1 = wrong cluster assignments
 
     Args:
         X_train: scaled training features
@@ -130,9 +110,7 @@ def train_kmeans(X_train, k=BEST_K):
     return km
 
 
-# ═══════════════════════════════════════════════
-# FUNCTION 3: VISUALIZE CLUSTERS
-# ═══════════════════════════════════════════════
+
 def visualize_clusters(X_train, labels):
     """
     Visualize clusters in 2D using PCA.
@@ -159,7 +137,7 @@ def visualize_clusters(X_train, labels):
 
     # ── Plot clusters ─────────────────────────
     colors = ['steelblue', 'darkorange',
-              'green', 'red', 'purple']
+            'green', 'red', 'purple']
 
     plt.figure(figsize=(10, 7))
     for i in range(BEST_K):
@@ -185,9 +163,7 @@ def visualize_clusters(X_train, labels):
     logger.info("Saved: outputs/07_kmeans_clusters.png")
 
 
-# ═══════════════════════════════════════════════
-# FUNCTION 4: CLUSTER PROFILES
-# ═══════════════════════════════════════════════
+
 def cluster_profiles(X_train, labels, feature_cols):
     """
     Analyze what each cluster represents.
@@ -195,9 +171,9 @@ def cluster_profiles(X_train, labels, feature_cols):
 
     This helps us understand:
     - Cluster 0 = high danceability, low acousticness
-                  → "Dance Pop"
+                → "Dance Pop"
     - Cluster 1 = low energy, high acousticness
-                  → "Acoustic/Chill"
+                → "Acoustic/Chill"
     etc.
 
     Args:
@@ -233,7 +209,7 @@ def cluster_profiles(X_train, labels, feature_cols):
         linewidths = 0.5
     )
     plt.title('Cluster Profiles (Normalized)',
-              fontsize=14, fontweight='bold')
+            fontsize=14, fontweight='bold')
     plt.tight_layout()
     plt.savefig('outputs/08_cluster_profiles.png', dpi=150)
     plt.close()
@@ -242,9 +218,7 @@ def cluster_profiles(X_train, labels, feature_cols):
     return profiles
 
 
-# ═══════════════════════════════════════════════
-# MAIN
-# ═══════════════════════════════════════════════
+
 if __name__ == "__main__":
     logger.info("=" * 50)
     logger.info("STARTING CLUSTERING PIPELINE")
